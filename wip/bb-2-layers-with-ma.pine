@@ -1,0 +1,20 @@
+//@version=4
+study(title="Bolinger 2 Layer Band + MA", shorttitle="BB + MB", overlay=true)
+length = input(20, minval=1)
+src = input(close, title="Source")
+mult = input(2.0, minval=0.001, maxval=10, step=0.2)
+mult2 = input(1.0, minval=0.001, maxval=10, step=0.2)
+
+mean = sma(src, length)
+dev = mult * stdev(src, length)
+dev2 = mult2 * stdev(src, length)
+upper = mean + dev
+upper2 = mean + dev2
+lower = mean - dev
+lower2 = mean - dev2
+plot(mean, color=color.red, title="Mean") //sma
+p1a = plot(upper, color= color.orange, title="Upper2")
+p2a = plot(upper2, color= color.orange, title="Upper")
+p1b = plot(lower, color= color.orange, title="Lower2")
+p2b = plot(lower2, color= color.orange, title="Lower")
+fill(p1a, p1b, color= color.gray)

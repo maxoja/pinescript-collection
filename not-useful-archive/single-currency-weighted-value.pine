@@ -1,0 +1,29 @@
+//@version=4
+study("Single Currency Weighted Value", overlay = false)
+
+// input which symbols to use
+s = input(title = "Currency", options = ["USD", "CAD", "GBP", "AUD", "EUR", "NZD", "JPY", "CHF"], defval = "GBP", type = input.string)
+// a = array.new_string(5, "")
+
+// get returns for each symbol
+get_returns(symbol) =>
+    price_close     = security(symbol, timeframe.period, close)
+    price_open      = security(symbol, timeframe.period, open)
+    change = symbol == "" ? na : ((price_close-price_open)/price_open)*100
+    change
+
+r1 = get_returns(s == "CHF" ? '1/EURCHF' :  s == "CAD" ? '1/EURCAD' :  s == "USD" ? '1/EURUSD' :  s == "GBP" ? '1/EURGBP' :  s == "EUR" ? 'EURUSD' : s == 'NZD' ? '1/EURNZD' :    s == "JPY" ? '1/EURJPY' : '1/EURAUD')
+r2 = get_returns(s == "CHF" ? '1/USDCHF' :  s == "CAD" ? '1/USDCAD' :  s == "USD" ? 'USDJPY' :    s == "GBP" ? 'GBPUSD' :    s == "EUR" ? 'EURJPY' : s == 'NZD' ? 'NZDUSD' :      s == "JPY" ? '1/USDJPY' : 'AUDUSD')
+r3 = get_returns(s == "CHF" ? 'CHFJPY' :    s == "CAD" ? 'CADJPY' :    s == "USD" ? '1/GBPUSD' :  s == "GBP" ? 'GBPJPY' :    s == "EUR" ? 'EURGBP' : s == 'NZD' ? 'NZDJPY' :      s == "JPY" ? '1/GBPJPY' : 'AUDJPY')
+r4 = get_returns(s == "CHF" ? 'GBPCHF' :    s == "CAD" ? '1/GBPCAD' :  s == "USD" ? '1/AUDUSD' :  s == "GBP" ? 'GBPAUD' :    s == "EUR" ? 'EURAUD' : s == 'NZD' ? '1/GBPNZD' :    s == "JPY" ? '1/AUDJPY' : '1/GBPAUD')
+r5 = get_returns(s == "CHF" ? '1/AUDCHF' :  s == "CAD" ? '1/AUDCAD' :  s == "USD" ? 'USDCAD' :    s == "GBP" ? 'GBPCAD' :    s == "EUR" ? 'EURCAD' : s == 'NZD' ? '1/AUDNZD' :    s == "JPY" ? '1/CADJPY' : 'AUDCAD')
+r6 = get_returns(s == "CHF" ? '1/CADCHF' :  s == "CAD" ? 'CADCHF' :    s == "USD" ? 'USDCHF' :    s == "GBP" ? 'GBPCHF' :    s == "EUR" ? 'EURCHF' : s == 'NZD' ? 'NZDCAD' :      s == "JPY" ? '1/CHFJPY' : 'AUDCHF')
+r7 = get_returns(s == "CHF" ? '1/NZDCHF' :  s == "CAD" ? '1/NZDCAD' :  s == "USD" ? '1/NZDUSD' :  s == "GBP" ? 'GBPNZD' :    s == "EUR" ? 'EURNZD' : s == 'NZD' ? 'NZDCHF' :      s == "JPY" ? '1/NZDJPY' : 'AUDNZD')
+
+// create array with returns
+r = array.new_float(7)
+array.set(r, 0, r1), array.set(r, 1, r2), array.set(r, 2, r3), array.set(r, 3, r4), array.set(r, 4, r5), array.set(r, 5, r6), array.set(r, 6, r7)
+
+// calculate and plot avg and cumulative sum 
+avg = array.avg(r) , cs  = cum(avg)
+plot(cs+100, style = plot.style_line, title = 'Weighted Value')aa

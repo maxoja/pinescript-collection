@@ -1,0 +1,11 @@
+//@version=4
+study(title="Abs(Change)", format=format.price, resolution="")
+lookback = input(9, minval=1)
+source = input(close, "Source", type = input.source)
+
+// This plots an indicator showing how much price was moved from the past n bars
+// This checks from close[lookback] to close[0] without any averaging
+
+roc = source - source[lookback]
+plot(abs(roc), color=#156A99, title="Absolute of Change")
+hline(0, color=#C0C0C0, title="Zero Line")

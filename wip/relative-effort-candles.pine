@@ -1,0 +1,14 @@
+//@version=4
+study(title="Relative Effort Density Candles", shorttitle="REDC", format=format.price, resolution="", overlay=true, scale=scale.right)
+period = input(title='avg period', type=input.integer, defval=25, minval=1)
+thresh = input(title='highlight threshold', type=input.float, defval=150, minval=0)
+
+effort = volume/atr(1)
+avgEffort = sma(effort, period)
+percentEffort = effort/avgEffort*100
+
+var color C_BLACK = #000000
+var color C_WHITE  = #FFFFFF
+color c_density = color.from_gradient(percentEffort, 0, 400, C_WHITE, C_BLACK)
+emphClr() => percentEffort > thresh ? color.orange : c_density
+plotcandle(open, high, low, close, color = emphClr(), wickcolor=emphClr(), bordercolor=emphClr() )

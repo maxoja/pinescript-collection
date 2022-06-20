@@ -1,0 +1,16 @@
+//@version=4
+study(title="Swing Cushion Channel (ATR + StdevMultiplier)", overlay=true, resolution="")
+length = input(20, minval=1)
+mult = input(2.0, minval=0.001, maxval=50, title="StdDev")
+
+swing = max(high-open, open-low)
+avg_swing = sma(swing, length)
+std_swing = stdev(swing, length)
+c = avg_swing+std_swing*mult
+
+upper = close[1] + c
+lower = close[1] - c
+
+p1 = plot(upper, "Upper", color=color.teal)
+p2 = plot(lower, "Lower", color=color.teal)
+fill(p1, p2, title = "Background", color=#198787, transp=95)

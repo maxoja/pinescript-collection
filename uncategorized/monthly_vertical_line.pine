@@ -1,0 +1,9 @@
+//@version=4
+
+study(title="Monthly Vertical Line", overlay=true)
+// This change background color of candle bars that start a month
+// Useful for seeing one month period clearly within intra-month timeframes
+
+color defClr = color.new(color.yellow, 30)
+highlightClr = input(title='highlight color', type=input.color, defval=defClr)
+bgcolor((month[0] != month[1]) ? highlightClr : na, editable=false)

@@ -1,0 +1,70 @@
+//@version=4
+study("Zigzag Percent - No Repaint - Turn Point Confirmation", overlay = true, max_lines_count=500, max_labels_count=500)
+devThresh = input(2.0, title='Threshold Deviation(%)')
+highlightClr = input(color.new(color.yellow, 80), title='Confirm candle highlight')
+
+// This is modified from Zig Zag HL+RSI
+
+// When the price moves into an opposite direction for at least the given deviation threshold,
+// this indicator will confirm top/bottom and paint a zigzag line.
+// That line is final and won't get repainted.
+
+// This indicator will also highlight background of a bar at confirmation point
+// meaning you will get to see the top/bottom at close price of that bar.
+
+var dirUp = false
+var lastLow = high*100
+var lastHigh = 0.0
+var timeLow = bar_index
+var timeHigh = bar_index
+var justFlip = false
+var line li = na
+
+f_drawLine() =>
+    _li_color = dirUp ? color.teal : color.orange
+    line.new(
+         timeHigh, lastHigh, 
+         timeLow, lastLow, 
+         xloc.bar_index, color=_li_color, width=2
+         )
+         
+justFlip := false
+if not dirUp or lastHigh == 0.0
+
+        
+    if high >= lastLow * (1 + devThresh/100)
+        li := f_drawLine()
+        lastHigh := high
+        timeHigh := bar_index
+        justFlip := true
+        dirUp := true
+        
+        if close < open and low <= lastHigh * (1-devThresh/100)
+            li := f_drawLine()
+            lastLow := low
+            timeLow := bar_index
+            dirUp := false
+        
+    else if low <= lastLow
+        lastLow := low
+        timeLow := bar_index
+        
+else
+    if low <= lastHigh * (1 - devThresh/100)
+        li := f_drawLine()
+        lastLow := low
+        timeLow := bar_index
+        justFlip := true
+        dirUp := false
+        
+        if close > open and high >= lastLow * (1+devThresh/100)
+            li := f_drawLine()
+            lastHigh := high
+            timeHigh := bar_index
+            dirUp := true
+    
+    else if high >= lastHigh
+        lastHigh := high
+        timeHigh := bar_index
+        
+bgcolor(justFlip ? highlightClr : na, editable=false)

@@ -1,0 +1,14 @@
+//@version=4
+study(title="Stable Pair Reversal Highlight", overlay=true)
+
+// This is for arbitraging pairs of stablecoins
+
+threshold_percent = input(title="Thresh %", type=input.float, defval=0.4)
+upper = 1 + threshold_percent/100
+lower = 1 - threshold_percent/100
+bgcolor(high > upper ? color.green : low < lower ? color.red : na, transp=70, editable=false)
+hline(upper)
+hline(1)
+hline(lower)
+// hlin
+// bgcolor((hour == 16 or hour == 17) ? color.blue : na, transp=80, editable=false)

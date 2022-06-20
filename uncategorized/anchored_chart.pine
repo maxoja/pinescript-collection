@@ -1,0 +1,17 @@
+//@version=4
+study("Anchored Chart", overlay=false)
+symbolName = input(title="symbol name", type=input.symbol, defval="GBPJPY")
+
+// This renders another candlebar chart of any asset of the same timeframe on a new pane
+// That pane shares the same x axis as the main chart
+
+
+s_close = security(symbolName, timeframe.period, close)
+s_high = security(symbolName, timeframe.period, high)
+s_low = security(symbolName, timeframe.period, low)
+s_open = security(symbolName, timeframe.period, open)
+
+// someone suggests to add the 2 lines below but I'll keep them shut until a problem presented
+// startMain = close[1000]
+// startSecondary = s_close[1000]
+plotcandle(close = s_close, high = s_high, low = s_low, open = s_open)

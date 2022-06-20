@@ -1,0 +1,15 @@
+//@version=4
+
+// Daily Vertical Line
+
+// This change background color of candle bars that start a day based on exchange timezone
+// It's useful for visualising time block of a day clearly in intraday timeframes
+
+// For some markets with short session at end of Sunday before Monday,
+// it can cause 2 consequent bars to be highlighted which is expected
+
+
+study(title="Daily Vertical Line", overlay=true)
+color defClr = color.new(color.yellow, 30)
+highlightClr = input(title='highlight color', type=input.color, defval=defClr)
+bgcolor((dayofmonth[0] != dayofmonth[1]) ? highlightClr : na, editable=false)

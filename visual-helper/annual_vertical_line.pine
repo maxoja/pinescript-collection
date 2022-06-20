@@ -1,0 +1,9 @@
+//@version=4
+
+// Annual Vertical Line
+
+// This script changes background color on candle bars that start a year
+// It's useful for seeing a year period clearly
+
+study(title="Annual Vertical Line", overlay=true)
+bgcolor((year[0] != year[1]) ? color.yellow : na, transp=30, editable=false)
