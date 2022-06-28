@@ -1,0 +1,23 @@
+//@version=4
+study(title="Percent True Range", format=format.price, resolution="", overlay=false)
+avgPeriod = input(title='Average Period', type=input.integer, defval=50, minval=1)
+
+// This study is to observe whether a market of an asset at its high price
+// moves within the same amplitude of volatility measured in percent change
+// of when at its low price
+
+// The answer:
+// From observing the result on a few cryptos (BTC, COMP) and stocks (AAPL, MDB, SPOT) ...
+// Yes, the percentage volatility arond both times are roughly the same
+// The only exception of this is the early stage of the market
+// It's also worth note taking that though the percentage change slightly correlate with the price
+// of the asset, however with 5x price, percentage volatility increase around 1.15x
+
+percentChange = atr(1)/open*100
+result = sma(percentChange, avgPeriod)
+
+plot(result, color=color.green, title='Percent True Range')
+hline(0, color=#C0C0C0, linestyle=hline.style_solid)
+hline(5, color=#C0C0C0)
+hline(10, color=#C0C0C0)
+hline(15, color=#C0C0C0)
