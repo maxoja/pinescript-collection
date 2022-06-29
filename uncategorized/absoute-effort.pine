@@ -1,0 +1,16 @@
+//@version=4
+study(title="Absolute Effort", format=format.price, resolution="", overlay=false)
+baseCurrencyVolume = input(title="Use money volume", type=input.bool, defval=false)
+usePercent = input(title="Use percent price move", type=input.bool, defval=false)
+
+// This is for visualising the result of effort calculation
+// There are options to adjust the formula which mainly are about transformation of
+// volume and volatility
+
+adjustedVol = volume * (baseCurrencyVolume ? (high+low)/2 : 1)
+priceMove = usePercent ? atr(1)/open*100 : atr(1)
+effort = adjustedVol/priceMove // unit is money/asset per percent/dollar price
+
+// plot(adjustedVol, color=color.orange, title="Adjusted Vol")
+// plot(priceMove, color=color.green, title='Price Move')
+plot(effort, color=#156A99, title="Abs Effort")
