@@ -1,8 +1,8 @@
 //@version=4
 study(title="Relative Effort in Percent", format=format.price, resolution="", overlay=false)
 period = input(title='avg period', type=input.integer, defval=20, minval=1)
-baseCurrencyVolume = input(title="Use money volume", type=input.bool, defval=false)
-usePercent = input(title="Use percent price move", type=input.bool, defval=false)
+baseCurrencyVolume = input(title="Use money volume", type=input.bool, defval=true)
+usePercent = input(title="Use percent price move", type=input.bool, defval=true)
 useEma = input(title="Use EMA as baseline", type=input.bool, defval=false)
 useStd = input(title="Use STD percent", type = input.bool, defval=false)
 
