@@ -1,14 +1,20 @@
 //@version=4
 study(title="Relative Effort in Percent", format=format.price, resolution="", overlay=false)
 period = input(title='avg period', type=input.integer, defval=25, minval=1)
+baseCurrencyVolume = input(title="Use money volume", type=input.bool, defval=false)
+usePercent = input(title="Use percent price move", type=input.bool, defval=false)
+useEma = input(title="Use EMA as baseline", type=input.bool, defval=false)
 
 // For each bar, tells how much effort it needed to move the price within (effort = vol/range)
 // in percentage by comparing against average effort in the past given period length
 
 // It's critical to choose a data source with reliable or preferable volume information
 
-effort = volume/atr(1)
-avgEffort = sma(effort, period)
+
+adjustedVol = volume * (baseCurrencyVolume ? (high+low)/2 : 1)
+priceMove = usePercent ? atr(1)/open*100 : atr(1)
+effort = adjustedVol/priceMove
+avgEffort = useEma ? ema(effort, period) : sma(effort, period)
 percentEffort = effort/avgEffort*100
 
 plot(percentEffort, color=#156A99, title="Percent Effort")
