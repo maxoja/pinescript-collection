@@ -4,6 +4,7 @@ period = input(title='avg period', type=input.integer, defval=20, minval=1)
 baseCurrencyVolume = input(title="Use money volume", type=input.bool, defval=false)
 usePercent = input(title="Use percent price move", type=input.bool, defval=false)
 useEma = input(title="Use EMA as baseline", type=input.bool, defval=false)
+useStd = input(title="Use STD percent", type = input.bool, defval=false)
 
 // For each bar, tells how much effort it needed to move the price within (effort = vol/range)
 // in percentage by comparing against average effort in the past given period length
@@ -15,9 +16,8 @@ adjustedVol = volume * (baseCurrencyVolume ? (high+low)/2 : 1)
 priceMove = usePercent ? atr(1)/open*100 : atr(1)
 effort = adjustedVol/priceMove
 avgEffort = useEma ? ema(effort, period) : sma(effort, period)
-percentEffort = effort/avgEffort*100
+stdVal = stdev(effort, period)
+percentEffort = useStd ? ( effort - avgEffort ) / (stdVal) * 100 : effort/avgEffort*100
 
 plot(percentEffort, color=#156A99, title="Percent Effort")
-hline(50, color=#C0C0C0, linestyle=hline.style_solid)
-hline(100, color=#C0C0C0)
-hline(150, color=#C0C0C0, linestyle=hline.style_solid)
+hline(useStd ? 200 : 150, color=#C0C0C0, linestyle=hline.style_solid)
