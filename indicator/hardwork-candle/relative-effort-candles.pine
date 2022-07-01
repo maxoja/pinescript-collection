@@ -5,7 +5,7 @@ thresh = input(title='highlight threshold', type=input.float, defval=150, minval
 useStd = input(title='std used in effort', type=input.bool, defval=false)
 
 range_min = useStd ? -400 : 0
-range_max = thresh*2
+range_max = thresh*3
 var color C_BLACK = #000000
 var color C_WHITE  = #FFFFFF
 color c_density = color.from_gradient(effortSrc, range_min, range_max, C_WHITE, C_BLACK)
