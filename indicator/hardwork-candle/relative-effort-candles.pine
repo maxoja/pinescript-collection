@@ -10,4 +10,7 @@ var color C_BLACK = #000000
 var color C_WHITE  = #FFFFFF
 color c_density = color.from_gradient(effortSrc, range_min, range_max, C_WHITE, C_BLACK)
 emphClr() => effortSrc > thresh ? color.orange : c_density
+priceUp = close - open > 0
 plotcandle(open, high, low, close, color = emphClr(), wickcolor=emphClr(), bordercolor=emphClr() )
+plotshape(priceUp, style=shape.circle, color=color.green, size=size.tiny, location=location.belowbar, transp=80)
+plotshape(not priceUp, style=shape.circle, color=color.red, size=size.tiny, location=location.belowbar, transp=80)
