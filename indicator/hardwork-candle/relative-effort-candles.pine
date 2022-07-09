@@ -1,5 +1,5 @@
 //@version=4
-study(title="Relative Effort Density Candles", shorttitle="REDC", format=format.price, resolution="", overlay=true, scale=scale.right)
+study(title="Relative Effort Density Candles", shorttitle="REDC", format=format.price, overlay=true, scale=scale.right)
 effortSrc = input(title='effor src', type=input.source, defval=close)
 thresh = input(title='highlight threshold', type=input.float, defval=150, minval=0)
 useStd = input(title='std used in effort', type=input.bool, defval=false)
